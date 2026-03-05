@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>whatwhatboy</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=Orbitron:wght@400;500;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ice-blue: #7ecfff;
+    --ice-cyan: #00d4ff;
+    --ice-deep: #0a1628;
+    --ice-mid: #0d1f3c;
+    --ice-panel: #0f2547;
+    --ice-border: rgba(126, 207, 255, 0.3);
+    --ice-glow: rgba(0, 212, 255, 0.15);
+    --ice-white: #e8f4ff;
+    --ice-grey: #8ba8c4;
+    --ice-dark-border: rgba(126, 207, 255, 0.08);
+    --hex-pattern: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='52' viewBox='0 0 60 52'%3E%3Cpath d='M0 26 L15 0 L45 0 L60 26 L45 52 L15 52Z' fill='none' stroke='rgba(126,207,255,0.06)' stroke-width='1'/%3E%3C/svg%3E");
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--ice-deep);
+    color: var(--ice-white);
+    font-family: 'Rajdhani', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+    cursor: crosshair;
+  }
+
+  /* ICE TEXTURE BACKGROUND */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: var(--hex-pattern);
+    background-size: 60px 52px;
+    opacity: 1;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: 
+      radial-gradient(ellipse 80% 40% at 50% 0%, rgba(0, 212, 255, 0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 60% at 0% 50%, rgba(126, 207, 255, 0.05) 0%, transparent 50%),
+      radial-gradient(ellipse 40% 60% at 100% 50%, rgba(0, 150, 255, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ─── NAVBAR ─── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(9, 18, 35, 0.92);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--ice-border);
+    box-shadow: 0 0 40px rgba(0, 212, 255, 0.08);
+  }
+
+  .nav-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    height: 60px;
+    padding: 0 20px;
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-right: 32px;
+    text-decoration: none;
+  }
+
+  .nav-logo-icon {
+    width: 36px;
+    height: 36px;
+    border: 1.5px solid var(--ice-cyan);
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    background: linear-gradient(135deg, rgba(0,212,255,0.2), rgba(126,207,255,0.05));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Orbitron', monospace;
+    font-size: 10px;
+    font-weight: 900;
+    color: var(--ice-cyan);
+    box-shadow: 0 0 15px rgba(0,212,255,0.4), inset 0 0 10px rgba(0,212,255,0.1);
+    animation: pulse-glow 3s ease-in-out infinite;
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 15px rgba(0,212,255,0.4), inset 0 0 10px rgba(0,212,255,0.1); }
+    50% { box-shadow: 0 0 25px rgba(0,212,255,0.7), inset 0 0 15px rgba(0,212,255,0.2); }
+  }
+
+  .nav-logo-text {
+    font-family: 'Orbitron', monospace;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--ice-white);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .nav-logo-text span {
+    color: var(--ice-cyan);
+  }
+
+  .nav-divider {
+    width: 1px;
+    height: 30px;
+    background: var(--ice-border);
+    margin: 0 16px;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    flex: 1;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .nav-links::-webkit-scrollbar { display: none; }
+
+  .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 14px;
+    text-decoration: none;
+    color: var(--ice-grey);
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    position: relative;
+    transition: color 0.2s;
+    white-space: nowrap;
+    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+  }
+
+  .nav-link::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 212, 255, 0);
+    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+    transition: background 0.2s;
+  }
+
+  .nav-link:hover { color: var(--ice-cyan); }
+  .nav-link:hover::before { background: rgba(0, 212, 255, 0.08); }
+
+  .nav-link.active {
+    color: var(--ice-cyan);
+    background: rgba(0, 212, 255, 0.1);
+  }
+
+  .nav-link svg {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+  }
+
+  .nav-social {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: 16px;
+  }
+
+  .nav-social a {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--ice-border);
+    color: var(--ice-grey);
+    text-decoration: none;
+    transition: all 0.2s;
+    clip-path: polygon(4px 0%, 100% 0%, calc(100% - 4px) 100%, 0% 100%);
+    background: rgba(126, 207, 255, 0.03);
+  }
+
+  .nav-social a:hover {
+    color: var(--ice-cyan);
+    border-color: var(--ice-cyan);
+    background: rgba(0, 212, 255, 0.1);
+    box-shadow: 0 0 12px rgba(0,212,255,0.3);
+  }
+
+  /* LIVE BADGE */
+  .live-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    background: rgba(255, 50, 50, 0.15);
+    border: 1px solid rgba(255, 80, 80, 0.4);
+    color: #ff6b6b;
+    font-family: 'Orbitron', monospace;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+    animation: live-pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes live-pulse {
+    0%, 100% { box-shadow: 0 0 8px rgba(255,80,80,0.3); }
+    50% { box-shadow: 0 0 16px rgba(255,80,80,0.6); }
+  }
+
+  .live-dot {
+    width: 6px;
+    height: 6px;
+    background: #ff4444;
+    border-radius: 50%;
+    animation: dot-blink 1.5s ease-in-out infinite;
+  }
+
+  @keyframes dot-blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  /* ─── MAIN ─── */
+  main {
+    position: relative;
+    z-index: 1;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  /* ─── HERO SECTION ─── */
+  .hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin-bottom: 48px;
+    align-items: center;
+  }
+
+  .hero-content {
+    animation: slide-in-left 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  @keyframes slide-in-left {
+    from { opacity: 0; transform: translateX(-40px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  .hero-tag {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--ice-cyan);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    opacity: 0.8;
+  }
+
+  .hero-tag::before {
+    content: '// ';
+    opacity: 0.5;
+  }
+
+  .hero-name {
+    font-family: 'Orbitron', monospace;
+    font-size: clamp(36px, 5vw, 64px);
+    font-weight: 900;
+    line-height: 0.95;
+    letter-spacing: -1px;
+    margin-bottom: 16px;
+    position: relative;
+  }
+
+  .hero-name .line1 { display: block; color: var(--ice-white); }
+  .hero-name .line2 { 
+    display: block; 
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--ice-cyan);
+    filter: drop-shadow(0 0 12px rgba(0,212,255,0.5));
+  }
+
+  .hero-desc {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--ice-grey);
+    line-height: 1.6;
+    max-width: 440px;
+    margin-bottom: 28px;
+    border-left: 2px solid var(--ice-border);
+    padding-left: 16px;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 24px;
+  }
+
+  .stat {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .stat-num {
+    font-family: 'Orbitron', monospace;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--ice-cyan);
+  }
+
+  .stat-label {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--ice-grey);
+  }
+
+  .stat-sep {
+    width: 1px;
+    background: var(--ice-border);
+  }
+
+  /* HERO STREAM EMBED */
+  .hero-stream {
+    animation: slide-in-right 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
+    position: relative;
+  }
+
+  @keyframes slide-in-right {
+    from { opacity: 0; transform: translateX(40px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  .stream-frame {
+    position: relative;
+    background: var(--ice-mid);
+    border: 1px solid var(--ice-border);
+    box-shadow: 0 0 40px rgba(0,212,255,0.1), inset 0 0 60px rgba(0,0,0,0.3);
+    clip-path: polygon(16px 0%, 100% 0%, calc(100% - 16px) 100%, 0% 100%);
+    overflow: hidden;
+  }
+
+  .stream-frame::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--ice-cyan), transparent);
+    z-index: 2;
+  }
+
+  .stream-preview {
+    width: 100%;
+    aspect-ratio: 16/9;
+    background: linear-gradient(135deg, #0a1628 0%, #0d1f3c 50%, #091220 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 12px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .stream-preview::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--hex-pattern);
+    background-size: 40px 35px;
+    opacity: 0.4;
+  }
+
+  .stream-offline-icon {
+    width: 60px;
+    height: 60px;
+    border: 2px solid var(--ice-border);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  .stream-offline-icon svg {
+    width: 28px;
+    height: 28px;
+    color: var(--ice-grey);
+  }
+
+  .stream-offline-text {
+    font-family: 'Orbitron', monospace;
+    font-size: 11px;
+    color: var(--ice-grey);
+    letter-spacing: 3px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .stream-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    border-top: 1px solid var(--ice-border);
+    background: rgba(0,0,0,0.3);
+  }
+
+  .stream-title {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    color: var(--ice-grey);
+  }
+
+  .stream-platform {
+    font-family: 'Orbitron', monospace;
+    font-size: 10px;
+    color: var(--ice-cyan);
+    letter-spacing: 2px;
+  }
+
+  /* ─── SECTION HEADERS ─── */
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  .section-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--ice-cyan);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+  }
+
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--ice-border), transparent);
+  }
+
+  .section-num {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: rgba(126, 207, 255, 0.3);
+  }
+
+  /* ─── LINKS GRID ─── */
+  .links-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+    margin-bottom: 48px;
+    animation: fade-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+  }
+
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .link-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    background: rgba(13, 31, 60, 0.6);
+    border: 1px solid var(--ice-dark-border);
+    text-decoration: none;
+    color: var(--ice-grey);
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: all 0.25s;
+    clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(8px);
+  }
+
+  .link-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--ice-cyan);
+    opacity: 0;
+    transition: opacity 0.25s;
+    box-shadow: 0 0 8px var(--ice-cyan);
+  }
+
+  .link-card:hover {
+    color: var(--ice-cyan);
+    border-color: rgba(126, 207, 255, 0.3);
+    background: rgba(0, 212, 255, 0.06);
+    transform: translateX(4px);
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.08);
+  }
+
+  .link-card:hover::before { opacity: 1; }
+
+  .link-icon {
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--ice-dark-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    clip-path: polygon(4px 0%, 100% 0%, calc(100% - 4px) 100%, 0% 100%);
+    background: rgba(0,0,0,0.3);
+    transition: all 0.25s;
+  }
+
+  .link-card:hover .link-icon {
+    border-color: rgba(0, 212, 255, 0.4);
+    background: rgba(0, 212, 255, 0.1);
+  }
+
+  .link-icon svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  /* ─── ABOUT SECTION ─── */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 48px;
+    animation: fade-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+  }
+
+  .about-card {
+    background: rgba(13, 31, 60, 0.5);
+    border: 1px solid var(--ice-dark-border);
+    padding: 28px;
+    clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+    backdrop-filter: blur(8px);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .about-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(0,212,255,0.4), transparent);
+  }
+
+  .about-card-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--ice-cyan);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .about-text {
+    color: var(--ice-grey);
+    font-size: 15px;
+    line-height: 1.7;
+    font-weight: 400;
+  }
+
+  .tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .tag {
+    padding: 4px 12px;
+    border: 1px solid var(--ice-border);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--ice-cyan);
+    letter-spacing: 1px;
+    clip-path: polygon(4px 0%, 100% 0%, calc(100% - 4px) 100%, 0% 100%);
+    background: rgba(0,212,255,0.05);
+  }
+
+  /* ─── SCHEDULE ─── */
+  .schedule-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+    margin-bottom: 48px;
+    animation: fade-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.4s both;
+  }
+
+  .day-card {
+    background: rgba(13, 31, 60, 0.4);
+    border: 1px solid var(--ice-dark-border);
+    padding: 14px 8px;
+    text-align: center;
+    clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+  }
+
+  .day-card.active {
+    background: rgba(0,212,255,0.08);
+    border-color: rgba(0,212,255,0.3);
+  }
+
+  .day-name {
+    font-family: 'Orbitron', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: var(--ice-grey);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .day-card.active .day-name { color: var(--ice-cyan); }
+
+  .day-time {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--ice-grey);
+  }
+
+  .day-card.active .day-time { color: var(--ice-white); }
+
+  .day-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(126,207,255,0.2);
+    margin: 8px auto 0;
+  }
+
+  .day-card.active .day-dot {
+    background: var(--ice-cyan);
+    box-shadow: 0 0 6px var(--ice-cyan);
+  }
+
+  /* ─── CORNER DECORATIONS ─── */
+  .corner-decor {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    opacity: 0.4;
+  }
+
+  .corner-decor.tl { top: 0; left: 0; border-top: 1px solid var(--ice-cyan); border-left: 1px solid var(--ice-cyan); }
+  .corner-decor.tr { top: 0; right: 0; border-top: 1px solid var(--ice-cyan); border-right: 1px solid var(--ice-cyan); }
+  .corner-decor.bl { bottom: 0; left: 0; border-bottom: 1px solid var(--ice-cyan); border-left: 1px solid var(--ice-cyan); }
+  .corner-decor.br { bottom: 0; right: 0; border-bottom: 1px solid var(--ice-cyan); border-right: 1px solid var(--ice-cyan); }
+
+  /* SCAN LINE EFFECT */
+  .scanline-container {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 999;
+    overflow: hidden;
+    opacity: 0.03;
+  }
+
+  .scanline-container::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,212,255,1) 2px,
+      rgba(0,212,255,1) 3px
+    );
+    background-size: 100% 3px;
+  }
+
+  /* FOOTER */
+  footer {
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid var(--ice-dark-border);
+    padding: 24px;
+    text-align: center;
+  }
+
+  .footer-text {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: rgba(126, 207, 255, 0.3);
+    letter-spacing: 2px;
+  }
+
+  /* MOBILE */
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; }
+    .about-grid { grid-template-columns: 1fr; }
+    .schedule-grid { grid-template-columns: repeat(4, 1fr); }
+    .nav-logo-text { display: none; }
+    .nav-social { display: none; }
+  }
+
+  @media (max-width: 600px) {
+    .links-grid { grid-template-columns: 1fr 1fr; }
+    .schedule-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<div class="scanline-container"></div>
+
+<!-- ─── NAV ─── -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <div class="nav-logo-icon">W</div>
+      <span class="nav-logo-text">what<span>what</span>boy</span>
+    </a>
+
+    <div class="nav-divider"></div>
+
+    <div class="nav-links">
+      <a href="#" class="nav-link active">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        Home
+      </a>
+      <a href="#" class="nav-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        About
+      </a>
+      <a href="#" class="nav-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+        Stream
+      </a>
+      <a href="#" class="nav-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 001.46 6.42 29 29 0 001 12a29 29 0 00.46 5.58 2.78 2.78 0 001.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.96A29 29 0 0023 12a29 29 0 00-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg>
+        YouTube
+      </a>
+      <a href="#" class="nav-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="12" r="1"/><circle cx="15" cy="12" r="1"/><path d="M7.5 7.5C10.5 6 13.5 6 16.5 7.5M5.5 9.5C9 7.5 15 7.5 18.5 9.5M3 12c0-4.97 4.03-9 9-9s9 4.03 9 9-4.03 9-9 9c-1.5 0-3.27-.7-4.5-1.5L3 21l1.5-4.5C3.7 15.27 3 13.5 3 12z"/></svg>
+        Discord
+      </a>
+      <a href="#" class="nav-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        Console
+      </a>
+      <a href="#" class="nav-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/></svg>
+        Emulators
+      </a>
+      <a href="#" class="nav-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+        Contact
+      </a>
+      <a href="#" class="nav-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        Help
+      </a>
+    </div>
+
+    <div class="nav-divider"></div>
+
+    <div class="live-badge">
+      <div class="live-dot"></div>
+      OFFLINE
+    </div>
+
+    <div class="nav-social">
+      <!-- YouTube -->
+      <a href="#" title="YouTube">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 001.46 6.42 29 29 0 001 12a29 29 0 00.46 5.58 2.78 2.78 0 001.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.96A29 29 0 0023 12a29 29 0 00-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="#0a1628"/></svg>
+      </a>
+      <!-- TikTok -->
+      <a href="#" title="TikTok">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.3 6.3 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.75a8.2 8.2 0 004.79 1.53V6.83a4.85 4.85 0 01-1.03-.14z"/></svg>
+      </a>
+      <!-- Discord -->
+      <a href="#" title="Discord">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.492c-1.53-.69-3.17-1.2-4.885-1.49a.075.075 0 00-.079.036c-.21.369-.444.85-.608 1.23a18.566 18.566 0 00-5.487 0 12.36 12.36 0 00-.617-1.23A.077.077 0 008.562 3c-1.714.29-3.354.8-4.885 1.491a.07.07 0 00-.032.027C.533 9.093-.32 13.555.099 17.961a.08.08 0 00.031.055 20.03 20.03 0 005.993 2.98.078.078 0 00.084-.026c.462-.62.874-1.275 1.226-1.963.021-.04.001-.088-.041-.104a13.201 13.201 0 01-1.872-.878.075.075 0 01-.008-.125c.126-.093.252-.19.372-.287a.075.075 0 01.078-.01c3.927 1.764 8.18 1.764 12.061 0a.075.075 0 01.079.009c.12.098.245.195.372.288a.075.075 0 01-.006.125c-.598.344-1.22.635-1.873.877a.075.075 0 00-.041.105c.36.687.772 1.341 1.225 1.962a.077.077 0 00.084.028 19.963 19.963 0 006.002-2.981.076.076 0 00.032-.054c.5-5.094-.838-9.52-3.549-13.442a.06.06 0 00-.031-.028z"/></svg>
+      </a>
+      <!-- Telegram -->
+      <a href="#" title="Telegram">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.833.941z"/></svg>
+      </a>
+      <!-- Instagram -->
+      <a href="#" title="Instagram">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+      </a>
+      <!-- Twitter -->
+      <a href="#" title="Twitter/X">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<!-- ─── MAIN CONTENT ─── -->
+<main>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content">
+      <p class="hero-tag">Streamer · Content Creator · Gamer</p>
+      <h1 class="hero-name">
+        <span class="line1">whatwhat</span>
+        <span class="line2">boy</span>
+      </h1>
+      <p class="hero-desc">
+        Game mods, APK downloads, console hacks, emulators, free cheats and more. 
+        Covering everything the mainstream won't touch. Join the community.
+      </p>
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="stat-num">—</span>
+          <span class="stat-label">Subscribers</span>
+        </div>
+        <div class="stat-sep"></div>
+        <div class="stat">
+          <span class="stat-num">—</span>
+          <span class="stat-label">Followers</span>
+        </div>
+        <div class="stat-sep"></div>
+        <div class="stat">
+          <span class="stat-num">—</span>
+          <span class="stat-label">Discord</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-stream">
+      <div class="stream-frame" style="position:relative;">
+        <div class="corner-decor tl"></div>
+        <div class="corner-decor tr"></div>
+        <div class="corner-decor bl"></div>
+        <div class="corner-decor br"></div>
+        <div class="stream-preview">
+          <div class="stream-offline-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+          </div>
+          <span class="stream-offline-text">STREAM OFFLINE</span>
+        </div>
+        <div class="stream-bar">
+          <span class="stream-title">Last stream: Rainbow Six Siege</span>
+          <span class="stream-platform">TWITCH</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUICK LINKS -->
+  <div class="section-header">
+    <span class="section-title">Quick Links</span>
+    <div class="section-line"></div>
+    <span class="section-num">01</span>
+  </div>
+
+  <div class="links-grid">
+    <a href="#" class="link-card">
+      <div class="link-icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" color="#8ba8c4"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+      </div>
+      Contact Info
+    </a>
+    <a href="#" class="link-card">
+      <div class="link-icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" color="#8ba8c4"><path d="M20.317 4.492c-1.53-.69-3.17-1.2-4.885-1.49a.075.075 0 00-.079.036c-.21.369-.444.85-.608 1.23a18.566 18.566 0 00-5.487 0 12.36 12.36 0 00-.617-1.23A.077.077 0 008.562 3c-1.714.29-3.354.8-4.885 1.491a.07.07 0 00-.032.027C.533 9.093-.32 13.555.099 17.961a.08.08 0 00.031.055 20.03 20.03 0 005.993 2.98.078.078 0 00.084-.026c.462-.62.874-1.275 1.226-1.963.021-.04.001-.088-.041-.104a13.201 13.201 0 01-1.872-.878.075.075 0 01-.008-.125c.126-.093.252-.19.372-.287a.075.075 0 01.078-.01c3.927 1.764 8.18 1.764 12.061 0a.075.075 0 01.079.009c.12.098.245.195.372.288a.075.075 0 01-.006.125c-.598.344-1.22.635-1.873.877a.075.075 0 00-.041.105c.36.687.772 1.341 1.225 1.962a.077.077 0 00.084.028 19.963 19.963 0 006.002-2.981.076.076 0 00.032-.054c.5-5.094-.838-9.52-3.549-13.442a.06.06 0 00-.031-.028z"/></svg>
+      </div>
+      Discord Servers
+    </a>
+    <a href="#" class="link-card">
+      <div class="link-icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" color="#8ba8c4"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      </div>
+      Free Cheats
+    </a>
+    <a href="#" class="link-card">
+      <div class="link-icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" color="#8ba8c4"><path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 001.46 6.42 29 29 0 001 12a29 29 0 00.46 5.58 2.78 2.78 0 001.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.96A29 29 0 0023 12a29 29 0 00-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg>
+      </div>
+      YouTube
+    </a>
+    <a href="#" class="link-card">
+      <div class="link-icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" color="#8ba8c4"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/></svg>
+      </div>
+      Tools
+    </a>
+    <a href="#" class="link-card">
+      <div class="link-icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" color="#8ba8c4"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 002 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
+      </div>
+      Game Mods
+    </a>
+    <a href="#" class="link-card">
+      <div class="link-icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" color="#8ba8c4"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+      </div>
+      APK Downloads
+    </a>
+    <a href="#" class="link-card">
+      <div class="link-icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" color="#8ba8c4"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+      </div>
+      Console
+    </a>
+    <a href="#" class="link-card">
+      <div class="link-icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" color="#8ba8c4"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+      </div>
+      Emulators
+    </a>
+    <a href="#" class="link-card">
+      <div class="link-icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" color="#8ba8c4"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      </div>
+      Help & FAQ
+    </a>
+  </div>
+
+  <!-- ABOUT -->
+  <div class="section-header">
+    <span class="section-title">About Me</span>
+    <div class="section-line"></div>
+    <span class="section-num">02</span>
+  </div>
+
+  <div class="about-grid">
+    <div class="about-card">
+      <p class="about-card-title">// Bio</p>
+      <p class="about-text">
+        Hey, I'm <strong style="color:var(--ice-cyan)">whatwhatboy</strong> — a content creator focused on gaming, modding, and all things underground tech. I share game mods, APK downloads, console tricks, emulation guides, and tools you won't find on mainstream channels. No fluff, just the good stuff.
+      </p>
+    </div>
+    <div class="about-card">
+      <p class="about-card-title">// Games & Interests</p>
+      <div class="tag-list">
+        <span class="tag">Rainbow Six Siege</span>
+        <span class="tag">FPS</span>
+        <span class="tag">Emulation</span>
+        <span class="tag">Modding</span>
+        <span class="tag">Android</span>
+        <span class="tag">Console Hacks</span>
+        <span class="tag">Retro Gaming</span>
+        <span class="tag">PC Gaming</span>
+        <span class="tag">Tools</span>
+        <span class="tag">Cheats</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCHEDULE -->
+  <div class="section-header">
+    <span class="section-title">Stream Schedule</span>
+    <div class="section-line"></div>
+    <span class="section-num">03</span>
+  </div>
+
+  <div class="schedule-grid">
+    <div class="day-card">
+      <div class="day-name">Mon</div>
+      <div class="day-time">--:--</div>
+      <div class="day-dot"></div>
+    </div>
+    <div class="day-card active">
+      <div class="day-name">Tue</div>
+      <div class="day-time">8 PM</div>
+      <div class="day-dot"></div>
+    </div>
+    <div class="day-card">
+      <div class="day-name">Wed</div>
+      <div class="day-time">--:--</div>
+      <div class="day-dot"></div>
+    </div>
+    <div class="day-card active">
+      <div class="day-name">Thu</div>
+      <div class="day-time">8 PM</div>
+      <div class="day-dot"></div>
+    </div>
+    <div class="day-card">
+      <div class="day-name">Fri</div>
+      <div class="day-time">--:--</div>
+      <div class="day-dot"></div>
+    </div>
+    <div class="day-card active">
+      <div class="day-name">Sat</div>
+      <div class="day-time">6 PM</div>
+      <div class="day-dot"></div>
+    </div>
+    <div class="day-card active">
+      <div class="day-name">Sun</div>
+      <div class="day-time">6 PM</div>
+      <div class="day-dot"></div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <p class="footer-text">// whatwhatboy · all rights reserved · 2025 //</p>
+</footer>
+
+</body>
+</html>
